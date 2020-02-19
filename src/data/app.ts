@@ -1,33 +1,23 @@
-import FeatureLayer from 'esri/layers/FeatureLayer';
+import Basemap from 'esri/Basemap';
+import GeoJSONLayer from 'esri/layers/GeoJSONLayer';
 import TileLayer from 'esri/layers/TileLayer';
-import VectorTileLayer from 'esri/layers/VectorTileLayer';
 import ArcGISMap from 'esri/Map';
 
-export const featureLayer = new FeatureLayer({
-  portalItem: {
-    id: 'b234a118ab6b4c91908a1cf677941702',
-  },
-  outFields: ['NAME', 'STATE_NAME', 'VACANT', 'HSE_UNITS'],
-  title: 'U.S. counties',
-  opacity: 0.8,
+const basemap = new Basemap({
+  baseLayers: [
+    new TileLayer({
+      url: 'https://ge.ch/sitgags2/rest/services/RASTER/ORTHOPHOTOS_2018/MapServer',
+    }),
+  ],
+});
+
+const geojsonUrl = 'https://ge.ch/sitgags1/rest/services/VECTOR/SITG_OPENDATA_02/MapServer/4702/query?where=1=1&f=geojson';
+
+const geojsonLayer = new GeoJSONLayer({
+  url: geojsonUrl,
 });
 
 export const map = new ArcGISMap({
-  basemap: {
-    baseLayers: [
-      new TileLayer({
-        portalItem: {
-          // world hillshade
-          id: '1b243539f4514b6ba35e7d995890db1d',
-        },
-      }),
-      new VectorTileLayer({
-        portalItem: {
-          // topographic
-          id: '7dc6cea0b1764a1f9af2e679f642f0f5',
-        },
-      }),
-    ],
-  },
-  layers: [featureLayer],
+  basemap: basemap,
+  layers: [geojsonLayer],
 });

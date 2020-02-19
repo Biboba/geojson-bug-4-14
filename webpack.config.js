@@ -55,8 +55,7 @@ module.exports = function(_, arg) {
               options: {
                 transpileOnly: true,
               },
-            },
-            'eslint-loader',
+            }
           ],
         },
         {
